@@ -1,0 +1,26 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  security:
+    enabled: false
+
+server:
+  port: 9999
+
+spring:
+  application:
+    name: MMS
+  cloud:
+    config:
+      enabled: true
+      fail-fast: true
+      name: DatabaseConfig
+      profile: default
+      uri: http://localhost:7777
+      request-read-timeout: 300000
+      username: admin
+      password: admin
+  jpa:
+    show-sql: true

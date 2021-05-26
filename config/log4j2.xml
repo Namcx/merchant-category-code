@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="30" scan="true">
+    <Properties>
+        <Property name="log-path">/BC-PayBooc/Demo/log</Property>
+        <Property name="pattern">%d - [%5level{length=5}] - %-30.30c{1} %X{tokenKey} - %m%n</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="info-log" fileName="${log-path}/info.log" append="true"
+                     filePattern="${log-path}/$${date:yyyy-MM}/info-%d{yyyyMMdd}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="debug" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout>
+                <pattern>${pattern}</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="500"/>
+        </RollingFile>
+        <RollingFile name="warn-log" fileName="${log-path}/warn.log" append="true"
+                     filePattern="${log-path}/$${date:yyyy-MM}/warn-%d{yyyyMMdd}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="debug" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout>
+                <pattern>${pattern}</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="500"/>
+        </RollingFile>
+        <RollingFile name="error-log" fileName="${log-path}/error.log" append="true"
+                     filePattern="${log-path}/$${date:yyyy-MM}/error-%d{yyyyMMdd}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="debug" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout>
+                <pattern>${pattern}</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="500"/>
+        </RollingFile>
+        <RollingFile name="debug-log" fileName="${log-path}/debug.log" append="true"
+                     filePattern="${log-path}/$${date:yyyy-MM}/debug-%d{yyyyMMdd}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout>
+                <pattern>${pattern}</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="500"/>
+        </RollingFile>
+        <RollingFile name="server" fileName="${log-path}/server.log" append="true"
+                     filePattern="${log-path}/$${date:yyyy-MM}/server-%d{yyyyMMdd}-%i.log.gz">
+
+            <PatternLayout>
+                <pattern>${pattern}</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="500"/>
+        </RollingFile>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="warn">
+            <AppenderRef ref="server" level="warn"/>
+            <AppenderRef ref="Console"/>
+        </Root>
+        <Logger name="vn.vnpay.demo" level="debug" additivity="false">
+            <AppenderRef ref="debug-log" level="debug"/>
+            <AppenderRef ref="info-log" level="info"/>
+            <AppenderRef ref="warn-log" level="warn"/>
+            <AppenderRef ref="error-log" level="error"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+    </Loggers>
+</Configuration>
